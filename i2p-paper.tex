@@ -89,13 +89,27 @@ uses a centralized directory server system.
 \section{Tunnels}
 
 Tunnels are part of the core of I2P, and it's formed by a gateway, a set of
-participants and an endpoint. The number of participants can be user decided.
-Two types of tunnels exist, ``outbound'' tunnels send messages away from the
-tunnel creator, while ``inbound'' tunnels bring messages to the tunnel creator.
+participants and an endpoint. Two types of tunnels exist, ``outbound'' tunnels
+send messages away from the tunnel creator, while ``inbound'' tunnels bring
+messages to the tunnel creator.
 Layered encryption is used, so each of the routers can only decrypt a single
 layer. The decrypted information contains the IP of the next router, along with
 the encrypted information to be forwarded.
 
+\subsection{Tunnel creation}
+The tunnel's creator selects exactly which peers will participate in the tunnel,
+and provides each with the necessary configuration data. Each local client destination
+has its own set of inbound tunnels and outbound tunnels of any number in parallel.
+They may also have any number of hops. This can be configured to meet its anonymity and
+performance needs per destination. It is the intent to make it hard for either participants or
+third parties to determine the length of a tunnel, or even for colluding participants
+to determine whether they are a part of the same tunnel at all (barring the situation
+where colluding peers are next to each other in the tunnel). The router does the job itself
+to maintain a series of pools for participating in the network database and for managing the
+tunnels themselves. It also got certain rules that don't allow IPs from the same /19 network to
+participate in the same tunnel sets.
+
+\subsection{Tunnel connections}
 Combining these two tunnels allows users to send messages to each other. The
 sender router sets up an outbound tunnel, while the receiver router creates an
 inbound tunnel. The gateway of an inbound tunnel can receive messages from any
@@ -105,9 +119,15 @@ tunnel. To do this, the sender adds instructions to its encrypted message. Once
 the endpoint of the outbound tunnel decrypts the message, it will have
 instructions to forward the message to the correct inbound gateway.
 
+Outside of the core I2P layer, there is an optional end to
+end streaming library available for client applications, exposing TCP-esque operation,
+including message reordering, retransmission, congestion control, etc.
+
 \section{Destinations}
 
-A destination is a 516-character Base64\cite{rfc4648} cryptographic identifier
+All destinations in I2P are 516-byte (or longer) keys and works like an ``cryptographic identifier''.
+(To be more precise, it is a 256-byte public key plus a 128-byte signing
+key plus a null certificate, which in Base64\cite{rfc4648} representation is 516 bytes.
 
 \subsection{Base32 Names}
 
@@ -140,6 +160,8 @@ name to destination mapping. An addon called the addressbook is also included,
 which works as a web-of-trust, distributed, human readable naming system.
 The router will request new names from entries in the addressbook known as
 subscriptions, these works like DNS servers works on the internet.
+If an application (I2PTunnel or the HTTP\cite{http-rfc} proxy) wishes to access a destination
+by name, the router does a very simple local lookup to resolve that name.
 
 
 \section{Conclution}
