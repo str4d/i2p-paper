@@ -45,9 +45,14 @@ Combining these two tunnels allows users to send messages to each other. The sen
 
 \subsection{Network database}
 
-The Network database is used to keep track of peer and service information. The "RouterInfo" representent a data structure holding data for a given peer, this includes IP, port and public keys.
+The Network database is used to keep track of peer and service information. The "RouterInfo" representent a data structure holding data for a given peer, this includes IP, port and public keys. It is a distributed hash table based on the Kademlia protocol.
 
 The LeaseSets contain information about the service, as the public key and tunnel endpoints that can be contacted to reach the service. A tunnel is set to expire after ten minutes and the LeaseSet with the old service information is useless after the tunnels expire. 
+
+\subsection{Floodfill}
+
+The floodfill servers works as database servers distributed in the hash table, this is a decentralized solution while on the other hand Tor uses a centralized directory server system.
+
 
 \subsection{Base32 Names}
 
@@ -60,6 +65,11 @@ In Tor, the address is 16 characters (80 bits), or half of the SHA-1 hash.
 I2P uses 52 characters (256 bits) to represent the full SHA-256 hash. The form is {52 chars}.b32.i2p. Tor has recently published a proposal to convert to an identical format of {52 chars}.onion for their hidden services. Base32 is implemented in the naming service, which queries the router over I2CP to lookup the LeaseSet to get the full Destination. Base32 lookups will only be successful when the Destination is up and publishing a LeaseSet. Because resolution may require a network database lookup, it may take significantly longer than a local address book lookup.
 
 Base32 addresses can be used in most places where hostnames or full destinations are used, however there are some exceptions where they may fail if the name does not immediately resolve. I2PTunnel will fail, for example, if the name does not resolve to a destination.
+
+\subsection{Naming service}
+
+
+\subsection{Conclution}
 
 
 \bibliographystyle{plain}
