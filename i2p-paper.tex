@@ -16,15 +16,19 @@ This paper will present I2P, a scalable, self organizing, resilient packet switc
 
 \section{High level overview}
 
-I2P is designed to allow peers using I2P to communicate with each other anonymously - both sender and recipient are unidentifiable to each other as well as to third parties. Having the ability to run servers within I2P is essential, as it is quite likely that any outbound proxies to the normal Internet will be monitored, disabled, or even taken over to attempt more malicious attacks. I2P is not a research project - academic, commercial, or governmental, but is instead an engineering effort aimed at doing whatever is necessary to provide a sufficient level of anonymity to those who need it. But it is encouraged to research on I2P.
+I2P is designed to allow peers using I2P to communicate with each other anonymously - both sender and recipient are unidentifiable to each other as well as to third parties. Having the ability to run services within I2P is essential, as it is quite likely that any outbound proxies to the normal Internet will be monitored, disabled, or even taken over to attempt more malicious attacks.
 
-The network itself is message oriented - it is essentially a secure and anonymous IP layer, where messages are addressed to cryptographic keys (Destinations) and can be significantly larger than IP packets. Some example uses of the network include "eepsites" (webservers hosting normal web applications within I2P), a BitTorrent client ("I2PSnark"), or a distributed data store. With the help of the I2PTunnel application, we are able to stream traditional TCP/IP applications over I2P. Most people will not use I2P directly, or even need to know they're using it.
+I2P is not a research project - academic, commercial, or governmental, but is instead an engineering effort aimed at doing whatever is necessary to provide a sufficient level of anonymity to those who need it. But it is still encouraged to research on I2P.
+
+The network itself is message oriented - it is essentially a secure and anonymous IP layer, where messages are addressed to cryptographic keys (Destinations) and can be significantly larger than IP packets. Some example uses of the network include "eepsites" (webservers hosting normal web applications within I2P), a BitTorrent client ("I2PSnark"), or a distributed data store.
 
 To deal with a wide range of attacks, I2P is fully distributed with no centralized resources - and hence there are no directory servers keeping statistics regarding the performance and reliability of routers within the network. As such, each router must keep and maintain profiles of various routers and is responsible for selecting appropriate peers to meet the anonymity, performance, and reliability needs of the users.
 
 The network itself makes use of a significant number of cryptographic techniques and algorithms - a full laundry list includes 2048bit ElGamal encryption, 256bit AES in CBC mode with PKCS\#5 padding, 1024bit DSA signatures, SHA256 hashes, 2048bit Diffie-Hellman negotiated connections with station to station authentication, and ElGamal / AES+SessionTag.
 
 \vspace{2 em}
+
+With the help of the I2PTunnel application, a user are able to stream traditional TCP/IP applications over I2P. Most people will not use I2P directly, or even need to know they're using it.
 
 Note that while there have been several simple SOCKS proxies available to tie existing applications into the network, their value has been limited as nearly every application routinely exposes what, in an anonymous context, is sensitive information. The only safe way to go is to fully audit an application to ensure proper operation and to assist in that we provide a series of APIs in various languages which can be used to make the most out of the network.
 
@@ -43,12 +47,13 @@ Combining these two tunnels allows users to send messages to each other. The sen
 
 The Network database is used to keep track of peer and service information. The "RouterInfo" representent a data structure holding data for a given peer, this includes IP, port and public keys.
 
-The leaseSets contain information about the service, as the public key and tunnel endpoints that can be contacted to reach the service. A tunnel is set to expire after ten minutes and the leaseSet with the old service information is useless after the tunnels expire. 
+The LeaseSets contain information about the service, as the public key and tunnel endpoints that can be contacted to reach the service. A tunnel is set to expire after ten minutes and the LeaseSet with the old service information is useless after the tunnels expire. 
 
 \subsection{Base32 Names}
 
 I2P supports Base32 hostnames similar to Tor's .onion addresses. Base32 addresses are much shorter and easier to handle than the full 516-character Base64 Destinations or addresshelpers. Example: 
-\url{ukeu3k5oycgaauneqgtnvselmt4yemvoilkln7jpvamvfx7dnkdq.b32.i2p}
+ukeu3k5oycgaauneqgtnvselmt4yemvoil
+kln7jpvamvfx7dnkdq.b32.i2p
 
 In Tor, the address is 16 characters (80 bits), or half of the SHA-1 hash.
 \cite{tor-hiddenservice}
