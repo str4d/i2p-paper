@@ -1,9 +1,12 @@
-- This is a paper in LaTeX presenting I2P.
+This is a paper in LaTeX presenting I2P.
+----------------------------------------
 
-Compiling with:
+
+*Compiling with:*
+
 latex i2p-paper.tex
 
-Tools:
+*Tools:*
 * LaTeX
 * BibTeX
 
