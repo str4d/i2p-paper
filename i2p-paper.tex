@@ -7,7 +7,24 @@
 \begin{document}
 \maketitle
 
-Abstract
+\begin{abstract}\noindent
+This paper will present I2P, a scalable, self organizing, resilient packet switched anonymous network layer, upon which any number of different anonymity or security conscious applications can operate. Each of these applications may make their own anonymity, latency, and throughput tradeoffs without worrying about the proper implementation of a free route mixnet, allowing them to blend their activity with the larger anonymity set of users already running on top of I2P.
+\end{abstract}
+
+\tableofcontents
+
+\section{High level overview}
+
+Unlike many other anonymizing networks, I2P doesn't try to provide anonymity by hiding the originator of some communication and not the recipient, or the other way around. I2P is designed to allow peers using I2P to communicate with each other anonymously - both sender and recipient are unidentifiable to each other as well as to third parties. For example, today there are both in-I2P web sites (allowing anonymous publishing / hosting) as well as HTTP proxies to the normal web (allowing anonymous web browsing). Having the ability to run servers within I2P is essential, as it is quite likely that any outbound proxies to the normal Internet will be monitored, disabled, or even taken over to attempt more malicious attacks.
+
+The network itself is message oriented - it is essentially a secure and anonymous IP layer, where messages are addressed to cryptographic keys (Destinations) and can be significantly larger than IP packets. Some example uses of the network include "eepsites" (webservers hosting normal web applications within I2P), a BitTorrent client ("I2PSnark"), or a distributed data store. With the help of the I2PTunnel application, we are able to stream traditional TCP/IP applications over I2P. Most people will not use I2P directly, or even need to know they're using it.
+
+
+\subsection{Tunnels}
+
+
+
+
 
 
 \end{document}
