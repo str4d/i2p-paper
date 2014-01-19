@@ -65,12 +65,20 @@ information. The only safe way to go is to fully audit an application to ensure
 proper operation and to assist in that we provide a series of APIs in various
 languages which can be used to make the most out of the network.
 
+\section{Booting into the network}
+
+When starting the I2P router for the first time it will select a random port to use for UDP
+and TCP connections to other routers, then continue with requesting ``RouterInfo'' files
+from randomly selected ``reseed servers'' maintained by voluenteers to start communicating
+with the first I2P routers. The reseed process is done over HTTP or HTTPS. The router will prefer
+UDP connections for faster transmission of packages.
+
 \section{Network database}
 
 The Network database (``netDb'') is used to keep track of peer and service
 information. The ``RouterInfo'' representent a data structure holding data for a
 given peer, this includes IP, port and public keys. It also keep track of
-service information, which is known as "LeaseSets". The Network database is a
+service information, which is known as ``LeaseSets''. The Network database is a
 distributed hash table based on the Kademlia\cite{Maymounkov:2002:KPI:646334.687801} protocol.
 
 \subsection{LeaseSets}
