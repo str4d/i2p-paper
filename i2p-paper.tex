@@ -9,46 +9,106 @@
 \maketitle
 
 \begin{abstract}\noindent
-This paper will present I2P, a scalable, self organizing, resilient packet switched anonymous network layer, upon which any number of different anonymity or security conscious applications can operate. Each of these applications may make their own anonymity, latency, and throughput tradeoffs without worrying about the proper implementation of a free route mixnet, allowing them to blend their activity with the larger anonymity set of users already running on top of I2P.
+This paper will present I2P, a scalable, self organizing, resilient packet
+switched anonymous network layer, upon which any number of different
+anonymity or security conscious applications can operate. Each of these
+applications may make their own anonymity, latency, and throughput tradeoffs
+without worrying about the proper implementation of a free route mixnet,
+allowing them to blend their activity with the larger anonymity set of users
+already running on top of I2P.
 \end{abstract}
 
 \tableofcontents
 
 \section{High level overview}
 
-I2P is designed to allow peers using I2P to communicate with each other anonymously - both sender and recipient are unidentifiable to each other as well as to third parties. Having the ability to run services within I2P is essential, as it is quite likely that any outbound proxies to the normal Internet will be monitored, disabled, or even taken over to attempt more malicious attacks.
+I2P is designed to allow peers using I2P to communicate with each other
+anonymously - both sender and recipient are unidentifiable to each other as
+well as to third parties. Having the ability to run services within I2P is
+essential, as it is quite likely that any outbound proxies to the normal
+Internet will be monitored, disabled, or even taken over to attempt more
+malicious attacks.
 
-I2P is not a research project - academic, commercial, or governmental, but is instead an engineering effort aimed at doing whatever is necessary to provide a sufficient level of anonymity to those who need it. But it is still encouraged to research on I2P.
+I2P is not a research project - academic, commercial, or governmental, but is
+instead an engineering effort aimed at doing whatever is necessary to provide a
+sufficient level of anonymity to those who need it. But it is still encouraged
+to research on I2P.
 
-The network itself is message oriented - it is essentially a secure and anonymous IP layer, where messages are addressed to cryptographic keys (Destinations) and can be significantly larger than IP packets. Some example uses of the network include "eepsites" (webservers hosting normal web applications within I2P), a BitTorrent\cite{cohen08specification} client ("I2PSnark"), or a distributed data store.
+The network itself is message oriented - it is essentially a secure and
+anonymous IP layer, where messages are addressed to cryptographic keys
+(Destinations) and can be significantly larger than IP packets. Some example
+uses of the network include "eepsites" (webservers hosting normal web
+applications within I2P), a BitTorrent\cite{cohen08specification} client
+("I2PSnark"), or a distributed data store.
 
-To deal with a wide range of attacks, I2P is fully distributed with no centralized resources - and hence there are no directory servers keeping statistics regarding the performance and reliability of routers within the network. As such, each router must keep and maintain profiles of various routers and is responsible for selecting appropriate peers to meet the anonymity, performance, and reliability needs of the users.
+To deal with a wide range of attacks, I2P is fully distributed with no
+centralized resources - and hence there are no directory servers keeping
+statistics regarding the performance and reliability of routers within the
+network. As such, each router must keep and maintain profiles of various
+routers and is responsible for selecting appropriate peers to meet the
+anonymity, performance, and reliability needs of the users.
 
-The network itself makes use of a significant number of cryptographic techniques and algorithms - a full laundry list includes 2048bit ElGamal\cite{DBLP:journals/tit/Elgamal85} encryption, 256bit AES\cite{books/sp/DaemenR02} in CBC mode with PKCS\#5 padding, 1024bit DSA signatures, SHA256 hashes, 2048bit Diffie-Hellman negotiated connections with station to station authentication, and ElGamal\cite{DBLP:journals/tit/Elgamal85} / AES+SessionTag.
+The network itself makes use of a significant number of cryptographic
+techniques and algorithms - a full laundry list includes 2048bit
+ElGamal\cite{DBLP:journals/tit/Elgamal85} encryption, 256bit
+AES\cite{books/sp/DaemenR02} in CBC mode with PKCS\#5 padding, 1024bit DSA
+signatures, SHA256 hashes, 2048bit Diffie-Hellman negotiated connections with
+station to station authentication, and
+ElGamal\cite{DBLP:journals/tit/Elgamal85} / AES+SessionTag.
 
 \vspace{2 em}
 
-With the help of the I2PTunnel application, a user are able to stream traditional TCP/IP applications over I2P. Most people will not use I2P directly, or even need to know they're using it.
+With the help of the I2PTunnel application, a user are able to stream
+traditional TCP/IP applications over I2P. Most people will not use I2P
+directly, or even need to know they're using it.
 
-Note that while there have been several simple SOCKS proxies available to tie existing applications into the network, their value has been limited as nearly every application routinely exposes what, in an anonymous context, is sensitive information. The only safe way to go is to fully audit an application to ensure proper operation and to assist in that we provide a series of APIs in various languages which can be used to make the most out of the network.
+Note that while there have been several simple SOCKS proxies available to tie
+existing applications into the network, their value has been limited as nearly
+every application routinely exposes what, in an anonymous context, is sensitive
+information. The only safe way to go is to fully audit an application to ensure
+proper operation and to assist in that we provide a series of APIs in various
+languages which can be used to make the most out of the network.
 
 \section{Network database}
 
-The Network database ("netDb") is used to keep track of peer and service information. The "RouterInfo" representent a data structure holding data for a given peer, this includes IP, port and public keys. It also keep track of service information, which is known as "LeaseSets". The Network database is a distributed hash table based on the Kademlia\cite{Maymounkov:2002:KPI:646334.687801} protocol.
+The Network database ("netDb") is used to keep track of peer and service
+information. The "RouterInfo" representent a data structure holding data for a
+given peer, this includes IP, port and public keys. It also keep track of
+service information, which is known as "LeaseSets". The Network database is a
+distributed hash table based on the
+Kademlia\cite{Maymounkov:2002:KPI:646334.687801} protocol.
 
 \subsection{LeaseSets}
 
-The LeaseSets contain information about the service, as the public key and tunnel endpoints that can be contacted to reach the service. A tunnel is set to expire after ten minutes and the LeaseSet with the old service information is useless after the tunnels expire. 
+The LeaseSets contain information about the service, as the public key and
+tunnel endpoints that can be contacted to reach the service. A tunnel is set to
+expire after ten minutes and the LeaseSet with the old service information is
+useless after the tunnels expire.
 
 \subsection{Floodfill}
 
-The floodfill servers works as database servers distributed in the hash table, this is a decentralized solution while on the other hand Tor\cite{tor-design} uses a centralized directory server system.
+The floodfill servers works as database servers distributed in the hash table,
+this is a decentralized solution while on the other hand Tor\cite{tor-design}
+uses a centralized directory server system.
 
 \section{Tunnels}
 
-Tunnels are part of the core of I2P, and it's formed by a gateway, a set of participants and an endpoint. The number of participants can be user decided. Two types of tunnels exist, "outbound" tunnels send messages away from the tunnel creator, while "inbound" tunnels bring messages to the tunnel creator. Layered encryption is used, so each of the routers can only decrypt a single layer. The decrypted information contains the IP of the next router, along with the encrypted information to be forwarded.
+Tunnels are part of the core of I2P, and it's formed by a gateway, a set of
+participants and an endpoint. The number of participants can be user decided.
+Two types of tunnels exist, "outbound" tunnels send messages away from the
+tunnel creator, while "inbound" tunnels bring messages to the tunnel creator.
+Layered encryption is used, so each of the routers can only decrypt a single
+layer. The decrypted information contains the IP of the next router, along with
+the encrypted information to be forwarded.
 
-Combining these two tunnels allows users to send messages to each other. The sender router sets up an outbound tunnel, while the receiver router creates an inbound tunnel. The gateway of an inbound tunnel can receive messages from any other user and will send them on until the endpoint. The endpoint of the outbound tunnel will need to send the message on to the gateway of the inbound tunnel. To do this, the sender adds instructions to its encrypted message. Once the endpoint of the outbound tunnel decrypts the message, it will have instructions to forward the message to the correct inbound gateway.
+Combining these two tunnels allows users to send messages to each other. The
+sender router sets up an outbound tunnel, while the receiver router creates an
+inbound tunnel. The gateway of an inbound tunnel can receive messages from any
+other user and will send them on until the endpoint. The endpoint of the
+outbound tunnel will need to send the message on to the gateway of the inbound
+tunnel. To do this, the sender adds instructions to its encrypted message. Once
+the endpoint of the outbound tunnel decrypts the message, it will have
+instructions to forward the message to the correct inbound gateway.
 
 \section{Destinations}
 
@@ -56,15 +116,27 @@ A destination is a 516-character Base64 cryptographic identifier
 
 \subsection{Base32 Names}
 
-I2P supports Base32 hostnames similar to Tor's\cite{tor-design} .onion addresses. Base32 addresses are much shorter and easier to handle than the full 516-character Base64 Destinations or addresshelpers. Example: 
+I2P supports Base32 hostnames similar to Tor's\cite{tor-design} .onion
+addresses. Base32 addresses are much shorter and easier to handle than the full
+516-character Base64 Destinations or addresshelpers. Example:
 ukeu3k5oycgaauneqgtnvselmt4yemvoil
 kln7jpvamvfx7dnkdq.b32.i2p
 
-In Tor\cite{tor-design}, the address is 16 characters (80 bits), or half of the SHA-1 hash.
-\cite{tor-hiddenservice}
-I2P uses 52 characters (256 bits) to represent the full SHA-256 hash. The form is {52 chars}.b32.i2p. Tor\cite{tor-design} has recently published a proposal to convert to an identical format of {52 chars}.onion for their hidden services. Base32 is implemented in the naming service, which queries the router over I2CP to lookup the LeaseSet to get the full Destination. Base32 lookups will only be successful when the Destination is up and publishing a LeaseSet. Because resolution may require a network database lookup, it may take significantly longer than a local address book lookup.
+In Tor\cite{tor-design}, the address is 16 characters (80 bits), or half of the
+SHA-1 hash.  \cite{tor-hiddenservice} I2P uses 52 characters (256 bits) to
+represent the full SHA-256 hash. The form is {52 chars}.b32.i2p.
+Tor\cite{tor-design} has recently published a proposal to convert to an
+identical format of {52 chars}.onion for their hidden services. Base32 is
+implemented in the naming service, which queries the router over I2CP to lookup
+the LeaseSet to get the full Destination. Base32 lookups will only be
+successful when the Destination is up and publishing a LeaseSet. Because
+resolution may require a network database lookup, it may take significantly
+longer than a local address book lookup.
 
-Base32 addresses can be used in most places where hostnames or full destinations are used, however there are some exceptions where they may fail if the name does not immediately resolve. I2PTunnel will fail, for example, if the name does not resolve to a destination.
+Base32 addresses can be used in most places where hostnames or full
+destinations are used, however there are some exceptions where they may fail if
+the name does not immediately resolve. I2PTunnel will fail, for example, if the
+name does not resolve to a destination.
 
 \subsection{Naming service}
 
