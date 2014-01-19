@@ -33,6 +33,18 @@ Note that while there have been several simple SOCKS proxies available to tie ex
 
 A destination is a 516-character Base64 cryptographic identifier
 
+\subsection{Tunnels}
+
+Tunnels are part of the core of I2P, and it's formed by a gateway, a set of participants and an endpoint. The number of participants can be user decided. Two types of tunnels exist, "outbound" tunnels send messages away from the tunnel creator, while "inbound" tunnels bring messages to the tunnel creator. Layered encryption is used, so each of the routers can only decrypt a single layer. The decrypted information contains the IP of the next router, along with the encrypted information to be forwarded.
+
+Combining these two tunnels allows users to send messages to each other. The sender router sets up an outbound tunnel, while the receiver router creates an inbound tunnel. The gateway of an inbound tunnel can receive messages from any other user and will send them on until the endpoint. The endpoint of the outbound tunnel will need to send the message on to the gateway of the inbound tunnel. To do this, the sender adds instructions to its encrypted message. Once the endpoint of the outbound tunnel decrypts the message, it will have instructions to forward the message to the correct inbound gateway.
+
+\subsection{Network database}
+
+The Network database is used to keep track of peer and service information. The "RouterInfo" representent a data structure holding data for a given peer, this includes IP, port and public keys.
+
+The leaseSets contain information about the service, as the public key and tunnel endpoints that can be contacted to reach the service. A tunnel is set to expire after ten minutes and the leaseSet with the old service information is useless after the tunnels expire. 
+
 \subsection{Base32 Names}
 
 I2P supports Base32 hostnames similar to Tor's .onion addresses. Base32 addresses are much shorter and easier to handle than the full 516-character Base64 Destinations or addresshelpers. Example: 
@@ -43,20 +55,6 @@ In Tor, the address is 16 characters (80 bits), or half of the SHA-1 hash.
 I2P uses 52 characters (256 bits) to represent the full SHA-256 hash. The form is {52 chars}.b32.i2p. Tor has recently published a proposal to convert to an identical format of {52 chars}.onion for their hidden services. Base32 is implemented in the naming service, which queries the router over I2CP to lookup the LeaseSet to get the full Destination. Base32 lookups will only be successful when the Destination is up and publishing a LeaseSet. Because resolution may require a network database lookup, it may take significantly longer than a local address book lookup.
 
 Base32 addresses can be used in most places where hostnames or full destinations are used, however there are some exceptions where they may fail if the name does not immediately resolve. I2PTunnel will fail, for example, if the name does not resolve to a destination.
-
-\subsection{Tunnels}
-
-Tunnels are part of the core of I2P, and it's formed by a gateway, a set of participants and an endpoint. The number of participants can be user decided. Two types of tunnels exist, "outbound" tunnels send messages away from the tunnel creator, while "inbound" tunnels bring messages to the tunnel creator.
-
-Another critical concept to understand is the "tunnel". A tunnel is a directed path through an explicitly selected list of routers. Layered encryption is used, so each of the routers can only decrypt a single layer. The decrypted information contains the IP of the next router, along with the encrypted information to be forwarded. Each tunnel has a starting point (the first router, also known as "gateway") and an end point. Messages can be sent only in one way. To send messages back, another tunnel is required.
-
-Combining these two tunnels allows users to send messages to each other. The sender sets up an outbound tunnel, while the receiver creates an inbound tunnel. The gateway of an inbound tunnel can receive messages from any other user and will send them on until the endpoint. The endpoint of the outbound tunnel will need to send the message on to the gateway of the inbound tunnel. To do this, the sender adds instructions to her encrypted message. Once the endpoint of the outbound tunnel decrypts the message, it will have instructions to forward the message to the correct inbound gateway.
-
-\subsection{Network database}
-
-The Network database is used to keep track of peer and service information. The "RouterInfo" representent a data structure holding data for a given peer, this includes IP, port and public keys.
-
-The leaseSets contain information about the service, as the public key and tunnel endpoints that can be contacted to reach the service. A tunnel is set to expire after ten minutes and the leaseSet with the old service information is useless after the tunnels expire. 
 
 
 \bibliographystyle{plain}
