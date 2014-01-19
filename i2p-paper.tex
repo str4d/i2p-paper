@@ -49,7 +49,7 @@ appropriate peers to meet the anonymity, performance, and reliability needs of t
 The network itself makes use of a significant number of cryptographic techniques and
 algorithms --- a full laundry list includes 2048bit ElGamal\cite{DBLP:journals/tit/Elgamal85}
 encryption, 256bit AES\cite{books/sp/DaemenR02} in CBC mode with PKCS\#5 padding, 1024bit 
-DSA signatures, SHA256 hashes, 2048bit Diffie-Hellman negotiated connections with 
+DSA\cite{2000--dss} signatures, SHA256 hashes, 2048bit Diffie-Hellman negotiated connections with 
 station to station authentication, and ElGamal / AES+SessionTag.
 
 \vspace{2 em}
@@ -107,11 +107,11 @@ instructions to forward the message to the correct inbound gateway.
 
 \section{Destinations}
 
-A destination is a 516-character Base64 cryptographic identifier
+A destination is a 516-character Base64\cite{rfc4648} cryptographic identifier
 
 \subsection{Base32 Names}
 
-I2P supports Base32 hostnames similar to Tor's\cite{tor-design} .onion
+I2P supports Base32\cite{rfc4648} hostnames similar to Tor's\cite{tor-design} .onion
 addresses. Base32 addresses are much shorter and easier to handle than the full
 516-character Base64 Destinations or addresshelpers. Example:
 ukeu3k5oycgaauneqgtnvselmt4yemvoil
