@@ -15,12 +15,21 @@ This paper will present I2P, a scalable, self organizing, resilient packet switc
 
 \section{High level overview}
 
-Unlike many other anonymizing networks, I2P doesn't try to provide anonymity by hiding the originator of some communication and not the recipient, or the other way around. I2P is designed to allow peers using I2P to communicate with each other anonymously - both sender and recipient are unidentifiable to each other as well as to third parties. For example, today there are both in-I2P web sites (allowing anonymous publishing / hosting) as well as HTTP proxies to the normal web (allowing anonymous web browsing). Having the ability to run servers within I2P is essential, as it is quite likely that any outbound proxies to the normal Internet will be monitored, disabled, or even taken over to attempt more malicious attacks.
+I2P is designed to allow peers using I2P to communicate with each other anonymously - both sender and recipient are unidentifiable to each other as well as to third parties. Having the ability to run servers within I2P is essential, as it is quite likely that any outbound proxies to the normal Internet will be monitored, disabled, or even taken over to attempt more malicious attacks. I2P is not a research project - academic, commercial, or governmental, but is instead an engineering effort aimed at doing whatever is necessary to provide a sufficient level of anonymity to those who need it. But it is encouraged to research on I2P. 
+
+While there have been several simple SOCKS proxies available to tie existing applications into the network, their value has been limited as nearly every application routinely exposes what, in an anonymous context, is sensitive information. The only safe way to go is to fully audit an application to ensure proper operation and to assist in that we provide a series of APIs in various languages which can be used to make the most out of the network.
 
 The network itself is message oriented - it is essentially a secure and anonymous IP layer, where messages are addressed to cryptographic keys (Destinations) and can be significantly larger than IP packets. Some example uses of the network include "eepsites" (webservers hosting normal web applications within I2P), a BitTorrent client ("I2PSnark"), or a distributed data store. With the help of the I2PTunnel application, we are able to stream traditional TCP/IP applications over I2P. Most people will not use I2P directly, or even need to know they're using it.
 
+\subsection{Destinations}
+
+A destination is a 516-character Base64 cryptographic identifier
+
+\subsection{Base32 Names}
 
 \subsection{Tunnels}
+
+Another critical concept to understand is the "tunnel". A tunnel is a directed path through an explicitly selected list of routers. Layered encryption is used, so each of the routers can only decrypt a single layer. The decrypted information contains the IP of the next router, along with the encrypted information to be forwarded. Each tunnel has a starting point (the first router, also known as "gateway") and an end point. Messages can be sent only in one way. To send messages back, another tunnel is required.
 
 
 
