@@ -24,6 +24,8 @@ To deal with a wide range of attacks, I2P is fully distributed with no centraliz
 
 The network itself makes use of a significant number of cryptographic techniques and algorithms - a full laundry list includes 2048bit ElGamal encryption, 256bit AES in CBC mode with PKCS\#5 padding, 1024bit DSA signatures, SHA256 hashes, 2048bit Diffie-Hellman negotiated connections with station to station authentication, and ElGamal / AES+SessionTag.
 
+\vspace{2 em}
+
 Note that while there have been several simple SOCKS proxies available to tie existing applications into the network, their value has been limited as nearly every application routinely exposes what, in an anonymous context, is sensitive information. The only safe way to go is to fully audit an application to ensure proper operation and to assist in that we provide a series of APIs in various languages which can be used to make the most out of the network.
 
 
@@ -50,7 +52,9 @@ Two types of tunnels exist: "outbound" tunnels send messages away from the tunne
 
 \subsection{Network database}
 
-A third critical concept to understand is I2P's "network database" (or "netDb") - a pair of algorithms used to share network metadata. The two types of metadata carried are "routerInfo" and "leaseSets" - the routerInfo gives routers the data necessary for contacting a particular router (their public keys, transport addresses, etc), while the leaseSet gives routers the information necessary for contacting a particular destination. A leaseSet contains a number of "leases". Each of this leases specifies a tunnel gateway, which allows reaching a specific destination.
+The Network database is used to keep track of peer and service information. The "RouterInfo" representent a data structure holding data for a given peer, this includes IP, port and public keys.
+
+The leaseSets contain information about the service, as the public key and tunnel endpoints that can be contacted to reach the service. A tunnel is set to expire after ten minutes and the leaseSet with the old service information is useless after the tunnels expire. 
 
 
 \bibliographystyle{plain}
