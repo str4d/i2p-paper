@@ -55,7 +55,7 @@ station to station authentication, and ElGamal / AES+SessionTag.
 \vspace{2 em}
 
 With the help of the I2PTunnel application, a user are able to stream
-traditional TCP/IP applications over I2P. Most people will not use I2P
+traditional TCP/IP\cite{rfc793} applications over I2P. Most people will not use I2P
 directly, or even need to know they're using it.
 
 Note that while there have been several simple SOCKS proxies available to tie
@@ -86,7 +86,8 @@ distributed hash table based on the Kademlia\cite{Maymounkov:2002:KPI:646334.687
 The LeaseSets contain information about the service, as the public key and
 tunnel endpoints that can be contacted to reach the service. A tunnel is set to
 expire after ten minutes and the LeaseSet with the old service information is
-useless after the tunnels expire.
+useless after the tunnels expire. LeaseSets need to be sent anonymously, to avoid
+correlating a router with its LeaseSets.
 
 \subsection{Floodfill}
 
