@@ -95,6 +95,12 @@ The floodfill servers works as database servers distributed in the hash table,
 this is a decentralized solution while on the other hand Tor\cite{tor-design}
 uses a centralized directory server system.
 
+\section{Destinations}
+
+All destinations in I2P are 516-byte (or longer) keys and works like an ``cryptographic identifier''.
+(To be more precise, it is a 256-byte public key plus a 128-byte signing
+key plus a null certificate, which in Base64\cite{rfc4648} representation is 516 bytes.
+
 \section{Tunnels}
 
 Tunnels are part of the core of I2P, and it's formed by a gateway, a set of
@@ -132,11 +138,7 @@ Outside of the core I2P layer, there is an optional end to
 end streaming library available for client applications, exposing TCP-esque operation,
 including message reordering, retransmission, congestion control, etc.
 
-\section{Destinations}
-
-All destinations in I2P are 516-byte (or longer) keys and works like an ``cryptographic identifier''.
-(To be more precise, it is a 256-byte public key plus a 128-byte signing
-key plus a null certificate, which in Base64\cite{rfc4648} representation is 516 bytes.
+\section{Naming}
 
 \subsection{Base32 Names}
 
