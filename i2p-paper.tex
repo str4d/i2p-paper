@@ -65,6 +65,29 @@ information. The only safe way to go is to fully audit an application to ensure
 proper operation and to assist in that we provide a series of APIs in various
 languages which can be used to make the most out of the network.
 
+\section{Destinations}
+
+On the regular internet, clients and servers are identified by IP addresses\cite{}.
+I2P has an equivalent anonymous identifier called a Destination. A single I2P
+router can host any number of Destinations; generally each individual client
+app or service will have its own Destination. Crucially, a Destination is not
+directly linked in any way to the I2P router's IP address. The unlinkability
+is provided by using tunnels (see Section \ref{sec:tunnels}).
+
+Destinations are a datastructure consisting of a public encryption key, a
+public signing key and a ``certificate'' (a container for various receipts or
+proof-of-works). The current implementation uses a 256-byte public key plus a
+128-byte signing key plus (by default) a null certificate, for a total of 387
+bytes. Destinations are generally displayed and used in modified\footnote{I2P
+uses a filesystem- and URL-friendly set of characters, replacing $/$ with
+$\sim$, and $+$ with $-$} Base64\cite{rfc4648} representation, which for the
+current implementation gives a 516-byte string.
+
+In addition to a single I2P router hosting multiple Destinations, it is possible
+for multiple routers to host the same Destination. This is a technique known as
+``multihoming'', and is commonly used to prevent uptime monitoring attacks\cite{}
+or to provide service failovers.
+
 \section{Booting into the network}
 
 When starting the I2P router for the first time it will select a random port to use for UDP\cite{rfc768}
@@ -95,13 +118,7 @@ The floodfill servers works as database servers distributed in the hash table,
 this is a decentralized solution while on the other hand Tor\cite{tor-design}
 uses a centralized directory server system.
 
-\section{Destinations}
-
-All destinations in I2P are 516-byte (or longer) keys and works like an ``cryptographic identifier''.
-(To be more precise, it is a 256-byte public key plus a 128-byte signing
-key plus a null certificate, which in Base64\cite{rfc4648} representation is 516 bytes.
-
-\section{Tunnels}
+\section{Tunnels} \label{sec:tunnels}
 
 Tunnels are part of the core of I2P, and it's formed by a gateway, a set of
 participants and an endpoint. Two types of tunnels exist, ``outbound'' tunnels
